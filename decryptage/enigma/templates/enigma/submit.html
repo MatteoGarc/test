@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Résultat du Décodage</title>
+    <link rel="stylesheet" href="{% static 'enigma/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/all.css' %}" />
+    <style type="text/css">
+
+        #page {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li><a href="{% url 'decode' %}">Enigma</a></li>
+            <li><a href="{% url 'mdp' %}">Analyse Frequentielle</a></li>
+        </ul>
+    </nav>
+    <div id="page">
+        <video width="400" height="400" controls autoplay loop>
+            <source src="{% static 'video/Enigma.mp4' %}" type="video/mp4">
+            Votre navigateur ne supporte pas la balise vidéo.
+        </video>
+        <div class="main">
+            
+            <a class="button" href="{% url 'decode' %}"><i class="fa-solid fa-circle-arrow-up"></i> Retour</a>
+            <h1>Résultat du Décodage</h1>
+            <p>Message codé : {{ texte }}</p>
+            <p>Message décodé : {{ decoded_message }}</p>
+        </div>
+        <div class="vid">
+        </div>
+    </div>
+</body>
+</html>

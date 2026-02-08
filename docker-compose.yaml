@@ -17,3 +17,16 @@ services:
       - ./backend:/app
       - /app/node_modules
       - ./data:/app/data
+
+  decryptage:
+    build: ./decryptage
+
+    command: >
+      sh -c "python manage.py migrate && 
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./decryptage:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=decryptage.settings

@@ -8,6 +8,10 @@ export class Preloader extends Scene {
 
     preload() {
         this.load.setPath('assets');
+        this.load.audio('theme_accueil', 'accueil.mp3');
+        this.load.audio('theme_briefing', 'briefing.mp3');
+        this.load.audio('theme_typewriter', 'typewriter.mp3');
+        this.load.audio('theme_perdre', 'perdre.mp3');
 
         // Charger le fond du menu
         this.load.image('background', 'background.jpg'); 

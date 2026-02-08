@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Enigma</title>
+        <link rel="stylesheet" href="{% static 'enigma/style.css' %}">
+    </head>
+    <body>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Accueil</a></li>
+                <li><a href="{% url 'decode' %}" class="in">Enigma</a></li>
+                <li><a href="{% url 'mdp' %}">Analyse Frequentielle</a></li>
+            </ul>
+        </nav>
+
+        <form action= "/submit/" method="get" class="enigma">
+            <div class="main"> 
+                <h2>
+                    Utilisation d'Enigma
+                </h2>
+                <p>
+                    Vous pouvez utiliser la machine Enigma pour décoder un message, cependant, vous avez besoin des trois rotors pour que le déchiffrage se passe correctement.
+                </p>
+                <div class="rotor1">
+                    <label>Donnez la combinaison du 1er rotor</label>
+                    <input type="text" name="rotor1" maxlength="26" placeholder="Rotor 1" value = "EKMFLGDQVZNTOWYHXUSPAIBRC" minlength="26" autocomplete="off">
+                </div>
+                <div class="rotor2">
+                    <label>Donnez la combinaison du 2ème rotor</label>
+                    <input type="text" name="rotor2" maxlength="26" placeholder="Rotor 2" value = "AJDKSIRUXBLHWTMCQGZNPYFVO" minlength="26" autocomplete="off">
+                </div>
+                <div class="rotor3">
+                    <label>Donnez la combinaison du 3ème rotor</label>
+                    <input type="text" name="rotor3" maxlength="26" placeholder="Rotor 3" value = "BDFHJLCPRTXVZNYEIWGAKMUSQ" minlength="26" autocomplete="off">
+                </div>
+                <div class="reflector">
+                    <label>Donnez la combinaison du reflector</label>
+                    <input type="text" name="reflector" maxlength="26" placeholder="Réfléctor" value="yruhqsldpxngokmiebfzcwvjat" readonly>
+                </div>
+                <div class="text">
+                    <label>Texte à déchiffrer :</label>
+                    <input type="text" name="texte" placeholder="Texte à déchiffrer" autocomplete="off">
+                </div>
+                <div class="content_sub">
+                    <input type="submit" value="Soumettre">
+                </div>
+            </div>
+        </form>
+    </body>
+</html>

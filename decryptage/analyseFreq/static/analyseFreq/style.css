@@ -1,0 +1,220 @@
+/* Style global */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('./../img/enigma.jpg') no-repeat center center fixed; 
+    background-size: cover;
+    color: #ddd; /* Light grey text for better contrast */
+}
+
+/* Style de la barre de navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #111; /* Dark background for the navbar */
+    color: white;
+    z-index: 10; /* Ensure navbar is above other content */
+    padding: 10px 0;
+    box-shadow: 0px 3px 3px #000;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0 20px 0 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; /* Space out navbar items */
+    align-items: center;
+}
+
+.navbar li a {
+    display: block;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #ddd;
+}
+
+.navbar li a:hover {
+    text-decoration: underline;
+    color: #fff;
+}
+
+.navbar li a.in {
+    color: #fff;
+}
+
+/* Style du conteneur principal */
+.main {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 50px; /* Offset for the fixed navbar */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+form.changeLetter {
+    width: 17%;
+    background-color: #111;
+    padding: 25px;
+    height: min-content;
+    box-shadow: 0 0 5px #000;
+    text-align: center;
+}
+
+h2 {
+    margin: 0 0 10px 0;
+    padding: 0;
+    font-size: 1.2em;
+    color: #02ada9;
+    align-self: flex-start;
+}
+
+/* Style for the text section */
+.texte {
+    background-color: #2b2b2b; /* Dark background for text */
+    color: #ddd; /* Light grey text */
+    padding: 20px;
+    border-radius: 4px;
+    width: 50%;
+    overflow-y: auto; /* Scrollbar if content overflows */
+}
+
+/* Style for the sidebar (input box and frequency) */
+.controls {
+    background-color: #1c1c1c; /* Even darker background for contrast */
+    padding: 20px;
+    border-radius: 4px;
+    width: 30%; /* Remaining width */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Scrollbar if content overflows */
+}
+
+/* Style for the frequency list to make it more readable */
+.dictionaire {
+    background-color: #252525; /* Slightly lighter background for the box */
+    padding: 15px;
+    width: 15%;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.dictionaire table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Style for individual frequency items */
+.dictionaire td {
+    margin: 5px 0;
+    padding: 3px 0 3px 0;
+    border-bottom: 1px solid #444;
+    min-width: 30px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em; /* Slightly smaller font size */
+    color: #fff; /* White text for readability */
+    text-align: center;
+}
+
+/* Style adjustments for form elements */
+label {
+    color: #ddd; /* Light grey text for better contrast */
+    margin-bottom: 5px;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+  }
+
+input[type="text"] {
+    border: 1px solid #444; /* Subtle border */
+    display: inline;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    background-color: transparent; /* Dark background */
+    color: white; /* Text color */
+    border-radius: 0;
+    margin: 5px;
+    text-align: center;
+}
+
+input[type="text"]:hover {
+    border-color: #666;
+}
+
+input[type="text"]:focus {
+    border-color: #008884;
+}
+
+.content_sub {
+    display: flex;
+    width: 100%;
+    margin-top: 14px;
+    justify-content: center;
+}
+
+button[type="submit"], input[type=submit], a.button {
+    display: inline-block;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #008884; /* Dark background */
+    color: white; /* Text color */
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 9px 15px 9px 15px;
+    transition: background-color 0.2s ease; /* Smooth transition for hover effect */
+}
+
+button[type=submit] i, a.button i {
+    margin-right: 5px;
+    transition: margin 0.2s ease;
+}
+
+a.button i {  
+    transition: transform 0.3s ease;
+}
+
+button[type="submit"]:hover, input[type=submit]:hover {
+    background-color: #016d6a; /* Darker background on hover */
+}
+
+button[type="submit"]:hover i {
+    margin-right: 2px;
+    margin-left: 3px;
+}
+
+a.button:hover i {
+    transform: rotate(360deg); /* Rotation complète de 360 degrés */
+}
+
+a.button {
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+a.button:hover {
+    background-color: #016d6a; /* Darker background on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .texte, .controls {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
