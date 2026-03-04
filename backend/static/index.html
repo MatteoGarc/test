@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Score Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-success">Eco-Score Web</h1>
+        <p class="lead">Analysez l'impact environnemental de votre site web.</p>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-5">
+        <div class="input-group input-group-lg">
+            <input type="url" id="urlInput" class="form-control" placeholder="https://exemple.com" required>
+            <button class="btn btn-success" onclick="analyzeUrl()">Calculer l'Eco-Score</button>
+        </div>
+        <div id="loading" class="text-center mt-3 d-none">
+            <div class="spinner-border text-success" role="status"></div>
+            <p>Analyse en cours (navigation réelle)...</p>
+        </div>
+    </div>
+
+    <div id="resultArea" class="d-none mb-5">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">Résultat de l'analyse</div>
+            <div class="card-body text-center">
+                <div class="score-circle mb-3" id="scoreLetter">A</div>
+                <h3 class="card-title">Score global : <span id="scoreValue"></span>/100</h3>
+                
+                <div class="row mt-4 text-start">
+                    <div class="col-md-4">
+                        <div class="alert alert-secondary">
+                            <strong>Poids total :</strong> <span id="resSize"></span> Ko
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-secondary">
+                            <strong>Requêtes :</strong> <span id="resReq"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-secondary">
+                            <strong>Éléments DOM :</strong> <span id="resDom"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-3">Derniers sites analysés</h3>
+    <table class="table table-hover bg-white shadow-sm rounded">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Score</th>
+                <th>Poids</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="historyTable">
+            </tbody>
+    </table>
+</div>
+
+<script>
+    async function analyzeUrl() {
+        const url = document.getElementById('urlInput').value;
+        if(!url) return alert("Entrez une URL valide");
+
+        document.getElementById('loading').classList.remove('d-none');
+        document.getElementById('resultArea').classList.add('d-none');
+
+        try {
+            const res = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({url: url})
+            });
+            
+            if(!res.ok) throw new Error(await res.text());
+            
+            const data = await res.json();
+            displayResult(data);
+            loadHistory(); // Rafraîchir l'historique
+        } catch (e) {
+            alert("Erreur : " + e.message);
+        } finally {
+            document.getElementById('loading').classList.add('d-none');
+        }
+    }
+
+    function displayResult(data) {
+        document.getElementById('resultArea').classList.remove('d-none');
+        
+        const badge = document.getElementById('scoreLetter');
+        badge.innerText = data.score_letter;
+        badge.className = `score-circle score-${data.score_letter}`;
+        
+        document.getElementById('scoreValue').innerText = data.score_value;
+        document.getElementById('resSize').innerText = data.page_size_kb;
+        document.getElementById('resReq').innerText = data.request_count;
+        document.getElementById('resDom').innerText = data.dom_elements;
+    }
+
+    async function loadHistory() {
+        const res = await fetch('/api/history');
+        const data = await res.json();
+        const tbody = document.getElementById('historyTable');
+        tbody.innerHTML = '';
+        
+        data.forEach(item => {
+            const row = `<tr>
+                <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                <td><span class="badge bg-${getBadgeColor(item.score_letter)}">${item.score_letter}</span></td>
+                <td>${item.page_size_kb} Ko</td>
+                <td>${new Date(item.scan_date).toLocaleDateString()}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+
+    function getBadgeColor(letter) {
+        if(letter === 'A') return 'success';
+        if(letter === 'B') return 'info';
+        if(letter === 'C') return 'warning';
+        return 'danger';
+    }
+
+    // Charger l'historique au démarrage
+    loadHistory();
+</script>
+</body>
+</html>

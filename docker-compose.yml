@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: eco_user
+      POSTGRES_PASSWORD: eco_password
+      POSTGRES_DB: ecoscore_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  web:
+    build: ./backend
+    container_name: ecoscore_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://eco_user:eco_password@db:5432/ecoscore_db
+    ipc: host
+
+volumes:
+  postgres_data:
